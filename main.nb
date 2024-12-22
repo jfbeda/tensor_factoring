@@ -1,0 +1,298 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 14.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     11788,        290]
+NotebookOptionsPosition[     11436,        276]
+NotebookOutlinePosition[     11832,        292]
+CellTagsIndexPosition[     11789,        289]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+    "Computes", " ", "a", " ", "rank", " ", "decomposition", " ", "of", " ", 
+     "a", " ", "matrix", " ", "M", " ", "by", " ", "finding", " ", "matrices",
+      " ", "D1", " ", "and", " ", "D2", " ", "such", " ", "that", " ", "M"}], 
+    " ", "=", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", "D1", ")"}], "^", "T"}], " ", "D2", " ", "using", " ", 
+     "the", " ", "RREF", " ", 
+     RowBox[{"(", 
+      RowBox[{"reduced", " ", "row", " ", "echelon", " ", "form"}], ")"}]}]}],
+    "*)"}], " ", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"ClearAll", "[", "rankDecompositionOrderTwoToMatricesRREF", "]"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"rankDecompositionOrderTwoToMatricesRREF", "[", "M_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "reduced", ",", "pivotColumns", ",", "D1", ",", "D2", ",", "rank"}], 
+       "}"}], ",", 
+      RowBox[{
+       RowBox[{"rank", "=", 
+        RowBox[{"MatrixRank", "[", "M", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"reduced", "=", 
+        RowBox[{"RowReduce", "[", "M", "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Identify", " ", "pivot", " ", "columns"}], "*)"}], 
+       RowBox[{"pivotColumns", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"SelectFirst", "[", 
+           RowBox[{
+            RowBox[{"Range", "[", 
+             RowBox[{"Length", "[", 
+              RowBox[{"reduced", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "]"}], "]"}], ",", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"reduced", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", ",", "#"}], "]"}], "]"}], "==", "1"}], "&"}]}], 
+           "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "rank"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Form", " ", "matrix", " ", "D1", " ", "using", " ", "pivot", " ", 
+         "columns", " ", "of", " ", "reduced"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"D1", "=", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"M", "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", "pivotColumns"}], "]"}], "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Form", " ", "matrix", " ", "D2", " ", "by", " ", "removing", " ", 
+         "zero", " ", "rows", " ", "from", " ", "reduced"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"D2", "=", 
+        RowBox[{"reduced", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ";;", "rank"}], "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Return", " ", "matrices", " ", "D1"}], ",", " ", "D2", ",", 
+         " ", 
+         RowBox[{"and", " ", "rank"}]}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"D1", ",", "D2", ",", "rank"}], "}"}]}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "Computes", " ", "a", " ", "rank", " ", "decomposition", " ", "of", " ", 
+      "a", " ", "matrix", " ", "M", " ", "by", " ", "finding", " ", 
+      "matrices", " ", "D1", " ", "and", " ", "D2", " ", "such", " ", "that", 
+      " ", "M"}], " ", "=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", "D1", ")"}], "^", "T"}], " ", "D2", " ", "using", " ", 
+      "the", " ", "SVD", " ", 
+      RowBox[{"(", 
+       RowBox[{"singular", " ", "value", " ", "decomposition"}], ")"}]}]}], 
+    "*)"}], " ", "\[IndentingNewLine]", 
+   RowBox[{"ClearAll", "[", "rankDecompositionOrderTwoToMatricesSVD", "]"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"rankDecompositionOrderTwoToMatricesSVD", "[", "M_", "]"}], ":=", 
+    
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "U", ",", "W", ",", "V", ",", "uk", ",", "wk", ",", "vk", ",", "rank", 
+        ",", "D1unnormalized", ",", "D2unnormalized", ",", "D1", ",", "D2", 
+        ",", "na", ",", "nb", ",", "extractNormalizationCoefficients", ",", 
+        "normalizationMatrix"}], "}"}], ",", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Perform", " ", "Singular", " ", "Value", " ", "Decomposition"}], 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"rank", "=", 
+        RowBox[{"MatrixRank", "[", "M", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"U", ",", "W", ",", "V"}], "}"}], "=", 
+        RowBox[{"SingularValueDecomposition", "[", 
+         RowBox[{"M", ",", "rank"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "By", " ", "specifying", " ", "the", " ", "rank", " ", "to", " ", 
+          "Mathematica"}], ",", " ", 
+         RowBox[{
+         "we", " ", "truncate", " ", "the", " ", "SVD", " ", "decomposition", 
+          " ", "to", " ", "the", " ", "smallest", " ", "it", " ", "can", " ", 
+          "be"}]}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"D1unnormalized", "=", 
+        RowBox[{"Transpose", "[", "U", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"D2unnormalized", "=", 
+        RowBox[{"W", ".", 
+         RowBox[{"Transpose", "[", "V", "]"}]}]}], ";", "\[IndentingNewLine]",
+        "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+         "These", " ", "unnormalized", " ", "matrices", " ", "work", " ", 
+          "perfectly", " ", "well"}], ",", " ", 
+         RowBox[{
+         "but", " ", "often", " ", "contain", " ", "unneccesary", " ", 
+          "square", " ", "roots", " ", "and", " ", "things"}], ",", " ", 
+         RowBox[{
+         "it", " ", "is", " ", "thus", " ", "convenient", " ", "to", " ", 
+          "find", " ", "a", " ", "normalization", " ", 
+          RowBox[{"matrix", ".", " ", "This"}], " ", "will", " ", "not", " ", 
+          "always", " ", "work"}], ",", " ", 
+         RowBox[{"but", " ", "is", " ", "often", " ", "nice"}]}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"extractNormalizationCoefficients", "[", "matrix_", "]"}], ":=", 
+        RowBox[{"Module", "[", 
+         RowBox[{
+          RowBox[{"{", "firstNonZero", "}"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"firstNonZero", "[", "row_", "]"}], ":=", 
+            RowBox[{"First", "[", 
+             RowBox[{"Select", "[", 
+              RowBox[{"row", ",", 
+               RowBox[{
+                RowBox[{"#", "!=", "0"}], "&"}]}], "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Map", "[", 
+            RowBox[{"firstNonZero", ",", "matrix"}], "]"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"normalizationMatrix", " ", "=", " ", 
+        RowBox[{"DiagonalMatrix", "[", 
+         RowBox[{
+         "extractNormalizationCoefficients", "[", "D1unnormalized", "]"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"D1", " ", "=", " ", 
+        RowBox[{
+         RowBox[{"Transpose", "[", 
+          RowBox[{"Inverse", "[", "normalizationMatrix", "]"}], "]"}], ".", 
+         "D1unnormalized"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"D2", " ", "=", " ", 
+        RowBox[{"normalizationMatrix", ".", "D2unnormalized"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"D1", ",", "D2", ",", "rank"}], "}"}]}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Computes", " ", "and", " ", "then", " ", "prints", " ", "a", " ", "rank",
+      " ", "decomposition", " ", "for", " ", "an", " ", "order", " ", "2", 
+     " ", "tensor"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"ClearAll", "[", "displayRankDecompositionOrderTwo", "]"}], "\n", 
+   RowBox[{
+    RowBox[{"displayRankDecompositionOrderTwo", "[", "M_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "D1", ",", "D2", ",", "rank", ",", "u1Vectors", ",", "u2Vectors", ",", 
+        "result"}], "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      
+      RowBox[{"(*", 
+       RowBox[{
+       "Compute", " ", "the", " ", "rank", " ", "decomposition", " ", "in", 
+        " ", "terms", " ", "of", " ", "matrices"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"D1", ",", "D2", ",", "rank"}], "}"}], "=", 
+        RowBox[{"rankDecompositionOrderTwoToMatricesRREF", "[", "M", "]"}]}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Extract", " ", "lists", " ", "of", " ", "u", 
+         RowBox[{"{", 
+          RowBox[{"l", ",", "1"}], "}"}], " ", "and", " ", "u", 
+         RowBox[{"{", 
+          RowBox[{"l", ",", "2"}], "}"}], " ", "vectors"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"u1Vectors", "=", "D1"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"u2Vectors", "=", "D2"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Combine", " ", "the", " ", "vectors", " ", 
+         RowBox[{"with", " ", "\[CircleTimes]", " ", "symbol"}], " ", "to", 
+         " ", "display", " ", "properly"}], "*)"}], 
+       RowBox[{"result", "=", 
+        RowBox[{"Row", "[", 
+         RowBox[{"Most", "[", 
+          RowBox[{"Flatten", "[", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"MatrixForm", "[", 
+                RowBox[{"u1Vectors", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+               "\"\<\[CircleTimes]\>\"", ",", 
+               RowBox[{"MatrixForm", "[", 
+                RowBox[{"u2Vectors", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", "\"\<+\>\""}], 
+              "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "1", ",", 
+               RowBox[{"Length", "[", "u1Vectors", "]"}]}], "}"}]}], "]"}], 
+           "]"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Print", " ", "the", " ", "final", " ", "result"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+         RowBox[{"MatrixForm", "[", "M", "]"}], ",", "\"\<=\>\"", ",", 
+         "result"}], "]"}], ";"}]}], "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.943869928055808*^9, 3.943869943809743*^9}},
+ CellLabel->"In[81]:=",ExpressionUUID->"5e988b6e-252a-4719-a59a-ea5e4c01689e"]
+},
+WindowSize->{808, 747},
+WindowMargins->{{44, Automatic}, {0, Automatic}},
+FrontEndVersion->"14.0 for Mac OS X ARM (64-bit) (December 12, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"9e024b0d-2834-4be3-8536-7bae7772e28e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 10874, 254, 1531, "Input",ExpressionUUID->"5e988b6e-252a-4719-a59a-ea5e4c01689e"]
+}
+]
+*)
+
