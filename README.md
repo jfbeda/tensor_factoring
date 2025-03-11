@@ -1,6 +1,6 @@
 # tensor_factoring
 
-This repository (github.com/jfbeda/tensor_factoring) includes a single file (main.nb) containing a couple of useful functions for the manipulations of tensors and tensor products in Mathematica, associated with a chapter from [[Insert name of textbook]] where the functions are used to solve a couple of basic problems.
+This repository (github.com/jfbeda/tensor_factoring) includes a single file (main.nb) containing a couple of useful functions for the manipulations of tensors and tensor products in Mathematica, associated with a chapter from the textbook ''Signatures Methods in Finance: An Introduction with Computational Applications'', available on the arXiv here: https://arxiv.org/abs/2502.15703, where the functions are used to solve a couple of basic problems.
 
 Included in the file are the functions:
 
